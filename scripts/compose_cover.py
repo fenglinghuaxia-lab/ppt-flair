@@ -4,7 +4,7 @@ transparent calligraphy title. Defaults = validated recipe (2026-08, user-approv
 
 Usage:
   python -X utf8 compose_cover.py --bg bg.png --title title.png --out cover.png
-  optional: --width-ratio 0.60 --v-center 0.26 --overlay 0.22 --brightness 0.97
+  optional: --width-ratio 0.60 --v-center 0.36 --overlay 0.22 --brightness 0.97
             --saturation 0.92 --contrast 1.06 --size 1920x1080
 """
 import argparse
@@ -56,7 +56,7 @@ def main():
     ap.add_argument("--title", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--width-ratio", type=float, default=0.60)
-    ap.add_argument("--v-center", type=float, default=0.26, help="title INK vertical center as ratio of height (upper area)")
+    ap.add_argument("--v-center", type=float, default=0.36, help="title INK vertical center as ratio of height (upper area)")
     ap.add_argument("--no-trim", action="store_true", help="disable auto-crop of transparent padding around the title ink")
     ap.add_argument("--saturation", type=float, default=0.92)
     ap.add_argument("--contrast", type=float, default=1.06)
