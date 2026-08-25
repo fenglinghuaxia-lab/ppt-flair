@@ -56,7 +56,8 @@ def main():
     ap.add_argument("--title", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--width-ratio", type=float, default=0.60)
-    ap.add_argument("--v-center", type=float, default=0.26, help="title vertical center as ratio of height (upper area)")
+    ap.add_argument("--v-center", type=float, default=0.26, help="title INK vertical center as ratio of height (upper area)")
+    ap.add_argument("--no-trim", action="store_true", help="disable auto-crop of transparent padding around the title ink")
     ap.add_argument("--saturation", type=float, default=0.92)
     ap.add_argument("--contrast", type=float, default=1.06)
     ap.add_argument("--overlay", type=float, default=0.22)
@@ -73,13 +74,26 @@ def main():
     bg = vignette(bg, W, H)
 
     title = Image.open(a.title).convert("RGBA")
+
+    # Auto-crop transparent padding so v_center positions the visible INK,
+    # not the source canvas (AI exports carry large empty margins which
+    # otherwise push the text toward the middle of the frame).
+    if not a.no_trim:
+        ink = title.split()[3].point(lambda p: 255 if p > 128 else 0)
+        bbox = ink.getbbox()
+        if bbox:
+            pad = int(0.02 * max(title.size)) + 4
+            title = title.crop((max(0, bbox[0] - pad), max(0, bbox[1] - pad),
+                                min(title.width, bbox[2] + pad),
+                                min(title.height, bbox[3] + pad)))
+
     target_w = int(W * a.width_ratio)
     scale = target_w / title.width
     title = title.resize((target_w, int(title.height * scale)), Image.LANCZOS)
 
     canvas = bg.convert("RGBA")
     tx = (W - title.width) // 2
-    ty = max(int(H * a.v_center) - title.height // 2, 40)
+    ty = max(int(H * a.v_center) - title.height // 2, 24)
     canvas.alpha_composite(title, (tx, ty))
     canvas.convert("RGB").save(a.out)
     print("OK", a.out, f"{W}x{H}", f"title_w={a.width_ratio} v_center={a.v_center} "
