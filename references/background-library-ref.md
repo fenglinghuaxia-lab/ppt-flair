@@ -1,7 +1,8 @@
-# 底图素材库索引 (Background Library Index)
+# 底图素材库索引 (Background Library Index — 本地可选组件)
 
-> 库存位置：`assets/backgrounds/`
-> 共 20 张，分 6 大类。AI 在 Stage B 的**优先路径**：先按需求关键词匹配本库，命中则直接精修使用；未命中再启动 AI 生成。
+> **公开分发包已剔除本目录**。Stage B 底图唯一路径：纯 AI 生成。以下索引仅保留供本地工作副本参考用。
+> 库存位置：`assets/backgrounds/`（公开版 zip / SkillHub 包不含此目录）
+> 共 20 张，分 6 大类。AI 在 Stage B 的**优先路径**：纯 AI 生成；本库仅作创意灵感参考。
 
 ---
 
